@@ -39,3 +39,16 @@ from https://www.jianshu.com/p/299788c8a0c3
 一、Android上用ETC1格式进行纹理压缩
 from https://developer.android.com/studio/command-line/etc1tool
 from http://blog.soliloquize.org/2014/12/12/Android%E4%B8%8A%E7%94%A8ETC1%E6%A0%BC%E5%BC%8F%E8%BF%9B%E8%A1%8C%E7%BA%B9%E7%90%86%E5%8E%8B%E7%BC%A9/
+
+二、《OpenGL ES 3.0编程指南》中对可编程管线的流程介绍如下：
+1. VBO/VAO（顶点缓冲区对象或顶点数组对象）
+2. VertexShader（顶点着色器）
+3. rasterization（光栅化）
+4. FragmentShader（片段着色器）
+5. Per-Fragment Operations（逐片段操作）
+(1)pixelOwnershipTest（像素归属测试）
+(2)ScissorTest（剪裁测试）
+(3)StencilTest and DepthTest（模板和深度测试）
+(4)Blending（混合）
+(5)dithering（抖动）
+6. Frame Buffer (帧缓冲区)
