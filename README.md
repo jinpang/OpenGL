@@ -36,11 +36,11 @@ IO+解码时间为4-16ms。
 
 from https://www.jianshu.com/p/299788c8a0c3
 
-一、Android上用ETC1格式进行纹理压缩
+二、Android上用ETC1格式进行纹理压缩
 from https://developer.android.com/studio/command-line/etc1tool
 from http://blog.soliloquize.org/2014/12/12/Android%E4%B8%8A%E7%94%A8ETC1%E6%A0%BC%E5%BC%8F%E8%BF%9B%E8%A1%8C%E7%BA%B9%E7%90%86%E5%8E%8B%E7%BC%A9/
 
-二、《OpenGL ES 3.0编程指南》中对可编程管线的流程介绍如下：
+三、《OpenGL ES 3.0编程指南》中对可编程管线的流程介绍如下：
 1. VBO/VAO（顶点缓冲区对象或顶点数组对象）
 2. VertexShader（顶点着色器）
 3. rasterization（光栅化）
@@ -52,3 +52,42 @@ from http://blog.soliloquize.org/2014/12/12/Android%E4%B8%8A%E7%94%A8ETC1%E6%A0%
 (4)Blending（混合）
 (5)dithering（抖动）
 6. Frame Buffer (帧缓冲区)
+四、OpenGL ES与 EGL
+什么是 OpenGL ES？
+OpenGL ES（OpenGL for Embedded Systems）是 OpenGL 三维图形API的子集，针对手机、PDA和游戏主机等嵌入式设备而设计，各显卡制造商和系统制造商来实现这组 API。
+EGL
+什么是什么是 EGL？
+EGL 是 OpenGL ES 渲染 API 和本地窗口系统(native platform window system)之间的一个中间接口层，它主要由系统制造商实现。
+引入EGL就是为了屏蔽不同平台上的区别。
+EGL提供如下的机制:
+    与设备的原生窗口系统通信
+    查询绘图表面的可用类型和配置
+    创建绘图表面
+    在OpenGL ES 和其他图形渲染API之间同步渲染
+    管理纹理贴图等渲染资源
+为了让OpenGL ES能够绘制在当前设备上，我们需要EGL作为OpenGL ES与设备的桥梁。
+使用 EGL 绘图的基本步骤
+    Display(EGLDisplay) 是对实际显示设备的抽象。
+    Surface（EGLSurface）是对用来存储图像的内存区域
+    FrameBuffer 的抽象，包括 Color Buffer， Stencil Buffer ，Depth Buffer。Context (EGLContext) 存储 OpenGL ES绘图的一些状态信息。
+    
+使用EGL的绘图的一般步骤：
+    获取 EGL Display 对象：eglGetDisplay()
+    初始化与 EGLDisplay 之间的连接：eglInitialize()
+    获取 EGLConfig 对象：eglChooseConfig()
+    创建 EGLContext 实例：eglCreateContext()
+    创建 EGLSurface 实例：eglCreateWindowSurface()
+    连接 EGLContext 和 EGLSurface：eglMakeCurrent()
+    使用 OpenGL ES API 绘制图形：gl_*()
+    切换 front buffer 和 back buffer 送显：eglSwapBuffer()
+    断开并释放与 EGLSurface 关联的 EGLContext 对象：eglRelease()
+    删除 EGLSurface 对象
+    删除 EGLContext 对象
+    终止与 EGLDisplay 之间的连接
+    
+OpenGL ES 和 EGL 的联系
+OpenGL ES 本质上是一个图形渲染管线的状态机
+而 EGL 则是用于监控这些状态以及维护 Frame buffer 和其他渲染 Surface 的外部层。
+下图是一个3d游戏典型的 EGL 系统布局图。
+from:https://blog.csdn.net/cauchyweierstrass/article/details/53189449
+
